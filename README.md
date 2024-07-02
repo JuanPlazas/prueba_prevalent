@@ -1,40 +1,124 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## Prueba Técnica para Desarrollador Fullstack Senior
 
-## Getting Started
+### Introducción
 
-First, run the development server:
+El objetivo de esta prueba técnica es evaluar tus habilidades en el desarrollo de una aplicación fullstack. Deberás implementar un sistema de gestión de ingresos y egresos, la gestión de usuarios y la generación de reportes. El proyecto cuenta con [wireframes](<https://www.figma.com/design/2PINjveveJJ9ZAAwxwNoRK/Wireframes-(Copy)?node-id=0-1&t=6q0Q0id8YnjH9fJt-1>) que pueden servir de guía para el candidato. Sin embargo, el diseño de la interfaz de usuario es libre.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### Requisitos del Proyecto
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+#### Funcionalidades Principales
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+1. **Roles y Permisos**
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+   - **Roles:**
+     - **Usuario:** Solo puede acceder a la gestión de movimientos.
+     - **Administrador:** Puede ver los reportes, editar usuarios y agregar movimientos.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+2. **Home**
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+   - Página de inicio con un menú principal que permite la navegación a tres secciones:
+     - Sistema de gestión de ingresos y gastos (disponible para todos los roles)
+     - Gestión de usuarios (solo para administradores)
+     - Reportes (solo para administradores)
 
-## Learn More
+3. **Sistema de Gestión de Ingresos y Gastos**
 
-To learn more about Next.js, take a look at the following resources:
+   - **Vista de Ingresos y Egresos**
+     - Implementar una tabla que muestre los ingresos y egresos registrados con las siguientes columnas:
+       - Concepto
+       - Monto
+       - Fecha
+       - Usuario
+     - Botón "Nuevo" para agregar un nuevo ingreso o egreso (solo para administradores).
+   - **Formulario de Nuevo Ingreso/Egreso**
+     - Formulario con los campos:
+       - Monto
+       - Concepto
+       - Fecha
+     - Botón para guardar el nuevo movimiento.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+4. **Gestión de Usuarios** (solo para administradores)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+   - **Vista de Usuarios**
+     - Tabla que muestre la lista de usuarios con las siguientes columnas:
+       - Nombre
+       - Correo
+       - Teléfono
+       - Acciones (editar usuario)
+   - **Formulario de Edición de Usuario**
+     - Formulario con los campos:
+       - Nombre
+       - Rol
+     - Botón para guardar los cambios.
 
-## Deploy on Vercel
+5. **Reportes** (solo para administradores)
+   - Mostrar un gráfico de movimientos financieros.
+   - Mostrar el saldo actual.
+   - Botón para descargar el reporte en formato CSV.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Requisitos Técnicos
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- **Tecnologías y Herramientas:**
+  - **Frontend:**
+    - Next.js utilizando `pages` router.
+    - TypeScript.
+    - Tailwind CSS.
+    - Shadcn para componentes de la interfaz de usuario.
+    - GraphQL con Apollo Client para queries y mutaciones.
+  - **Backend:**
+    - API GraphQL con Apollo Server implementada en una ruta de API de Next.js.
+    - Base de datos de Postgres en Supabase.
+  - **Protección de Datos:** 
+    - Implementar control de acceso basado en roles (RBAC) para asegurar que solo los usuarios autorizados puedan acceder a ciertas funcionalidades y datos.
+    - Proteger el backend para que rechace conexiones no autenticadas.
+  - **Autenticación:**
+    - Utilizar [Authjs](https://authjs.dev/) con [Auth0](https://auth0.com/) como proveedor y [Prisma](https://prisma.io) como adaptador para la autenticación por sesiones de base de datos.
+  - **Pruebas unitarias**
+    - El candidato debe agregar al menos 3 pruebas unitarias donde considere necesario.
+  - **Despliegue:**
+    - Desplegar el proyecto en Vercel.
+
+### Entregables
+
+1. **Código Fuente:**
+
+   - Repositorio en GitHub con el código fuente del proyecto.
+   - Incluir un archivo README con instrucciones claras sobre cómo ejecutar el proyecto localmente y cómo desplegarlo en Vercel.
+
+2. **Despliegue:**
+   - Proyecto desplegado en Vercel con la URL proporcionada.
+
+### Criterios de Evaluación
+
+- **Funcionalidad:**
+
+  - Cumplimiento de todos los requisitos funcionales.
+  - Correcta implementación del CRUD para ingresos, egresos y usuarios.
+  - Generación y descarga de reportes en formato CSV.
+
+- **Calidad del Código:**
+
+  - Calidad y claridad del código.
+  - Uso adecuado de las mejores prácticas de desarrollo.
+  - Estructura del proyecto.
+
+- **Diseño y UX:**
+
+  - Usabilidad de la interfaz.
+  - Implementación de un diseño atractivo.
+
+- **Pruebas y Documentación:**
+
+  - Cobertura de pruebas unitarias.
+  - Calidad de los comentarios dentro del proyecto.
+
+- **Seguridad:**
+
+  - Implementación efectiva de control de acceso basado en roles (RBAC).
+  - Protección adecuada de los datos sensibles.
+
+- **Notas**:
+  - El aplicativo no debe contener diseño responsivo.
+  - El candidato puede utilizar el código cargado en este repositorio. Sin embargo, esta no es una condición necesaria y el candidato puede iniciar el proyecto de 0 si lo desea.
+  - El candidato puede cambiar las versiones de las librerías si lo considera necesario.
+  - El candidato debe compartir el acceso al repositorio de GitHub al correo dsaldarriaga@prevalentware.com
