@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import {dataPages} from "@/utils/dataPages"
+import {dataPages} from "@/shared/dataPages"
 
 function Sidebar() {
   return (
