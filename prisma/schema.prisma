@@ -9,6 +9,48 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model IngresosEgresosConcepto {
+  id Int @id @default(autoincrement())
+  name String @unique
+  description String?
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
+  ingresos_egresos IngresosEgresos[]
+}
+
+model UserRol {
+  id Int @id @default(autoincrement())
+  rol String @unique
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
+  user User[]
+}
+
+model User {
+  id Int @id @default(autoincrement())
+  email String @unique
+  name String
+  password String
+  telefono String?
+  rol UserRol @relation(fields: [id_rol], references: [id])
+  id_rol Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  ingresos_egresos IngresosEgresos[]
+}
+
+model IngresosEgresos {
+  id Int @id @default(autoincrement())
+  monto Float @unique
+  user User @relation(fields: [id_user], references: [id])
+  id_user Int
+  concepto IngresosEgresosConcepto @relation(fields: [id_concepto], references: [id])
+  id_concepto Int
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
 }
