@@ -28,6 +28,7 @@ export const IngresosEgresosTypeDefs = `
     monto: Float
     id_user: Int
     id_concepto: Int
+    fecha: String
   }
 
   type IngresoEgreso {
@@ -37,5 +38,6 @@ export const IngresosEgresosTypeDefs = `
     user: User
     concepto: IngresosEgresosConcepto
     id_concepto: Int
+    fecha: String
   }
 `

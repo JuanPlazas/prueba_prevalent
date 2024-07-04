@@ -46,11 +46,12 @@ model User {
 
 model IngresosEgresos {
   id Int @id @default(autoincrement())
-  monto Float @unique
+  monto Float
   user User @relation(fields: [id_user], references: [id])
   id_user Int
   concepto IngresosEgresosConcepto @relation(fields: [id_concepto], references: [id])
   id_concepto Int
+  fecha DateTime
   createdAt DateTime? @default(now())
   updatedAt DateTime? @updatedAt
 }
