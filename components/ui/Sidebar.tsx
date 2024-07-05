@@ -14,13 +14,13 @@ function Sidebar() {
         </Link>
         { 
         dataPages.map((data, index) => (
-          <Link href={data.url} key={`li_${index}`}>
+          <a href={data.url} key={`li_${index}`}>
           <li 
             className='bg-slate-800 hover:bg-slate-400 flex justify-center items-center rounded-md my-8 p-5'
           >
             {data.title}
           </li>
-          </Link>
+          </a>
         ))
         }
       </ul>
