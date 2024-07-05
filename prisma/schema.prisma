@@ -39,8 +39,8 @@ model User {
   telefono String?
   rol UserRol @relation(fields: [id_rol], references: [id])
   id_rol Int
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
   ingresos_egresos IngresosEgresos[]
 }
 

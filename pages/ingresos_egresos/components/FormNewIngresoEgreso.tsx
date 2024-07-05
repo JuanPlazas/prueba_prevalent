@@ -39,7 +39,7 @@ function NewIngresoEgresoPage({ingresosEgresosConceptos, saveIngresoEgreso}) {
           }
         </select>
         {
-          errors.email && (
+          errors.concepto && (
             <span className='text-red-500' >{errors.concepto.message.toString()}</span>
           )
         }

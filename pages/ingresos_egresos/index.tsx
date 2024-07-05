@@ -5,6 +5,7 @@ import { TablaIngresosEgresos } from "./components/TablaIngresosEgresos"
 import NewIngresoEgresoPage from "./components/FormNewIngresoEgreso";
 import { useRouter } from "next/navigation"
 import { useToast } from '@/components/ui/use-toast'
+import Loading from "@/components/ui/loading";
 
 function IngresosEgresosPage() {
   const router = useRouter()
@@ -95,6 +96,11 @@ function IngresosEgresosPage() {
 
   return (
     <div className="w-full flex flex-col h-[calc(100vh-7rem)]">
+      {
+        (ingresosEgresos.loading || ingresosEgresosConceptos.loading) && (
+          <Loading/>
+        )
+      }
       <div className="my-10 flex flex-row justify-between items-center">
         <p className="font-bold text-xl border-b-2 border-slate-500 text-slate-500">
           Ingresos y egresos
