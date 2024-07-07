@@ -30,6 +30,7 @@ export const UsersTypeDefs = `
     password: String
     telefono: String
     id_rol: Int
+    provider: String
   }
 
   type User {
@@ -40,5 +41,6 @@ export const UsersTypeDefs = `
     telefono: String
     id_rol: Int
     rol: UserRol
+    provider: String
   }
 `

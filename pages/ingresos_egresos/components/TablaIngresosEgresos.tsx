@@ -25,7 +25,7 @@ export function TablaIngresosEgresos({ingresosEgresosHeaders, ingresosEgresosDat
             <TableRow key={`row_${data.id}`}>
             <TableHead className="text-white">{data.concepto}</TableHead>
             <TableHead className="text-white">{data.monto}</TableHead>
-            <TableHead className="text-white">Fecha</TableHead>
+            <TableHead className="text-white">{data.fecha}</TableHead>
             <TableHead className="text-white">{data.user}</TableHead>
             </TableRow>
           ))

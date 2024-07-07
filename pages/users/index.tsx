@@ -6,6 +6,8 @@ import UpdateUserPage from "./components/FormUpdateUser";
 import { useRouter } from "next/navigation"
 import { useToast } from '@/components/ui/use-toast'
 import Loading from "@/components/ui/loading";
+import { useSession } from "next-auth/react";
+import NeedAdminComponent from "@/components/ui/needAdmin";
 
 function UsersPage() {
   const router = useRouter()
@@ -24,6 +26,11 @@ function UsersPage() {
     "Rol",
     "Accion",
   ]
+  const { data: session } = useSession()
+
+  if(session?.user.id_rol != 1) { // si no es admin no puede ingresar
+    return <NeedAdminComponent />
+  }
 
   useEffect(() => {
       loadUsers()

@@ -4,6 +4,8 @@ import React, { useEffect, useState } from 'react'
 import { Chart } from 'chart.js/auto';
 import Loading from '@/components/ui/loading';
 import * as XLSX from 'xlsx';
+import { useSession } from 'next-auth/react';
+import NeedAdminComponent from '@/components/ui/needAdmin';
 
 function ReportesPage() {
   const rangoFechas = [
@@ -18,6 +20,12 @@ function ReportesPage() {
   const [dataCSV, setDataCSV] = useState([])
   const [rangoFechaSelect, setRangoFechaSelect] = useState(rangoFechas[0].unit)
   const reportes = useQuery(getReportesPorRangoFechaQuery({ amount: 1, unit: rangoFechaSelect }));
+  const { data: session } = useSession()
+
+  if(session?.user.id_rol != 1) { // si no es admin no puede ingresar
+    return <NeedAdminComponent />
+  }
+
 
   useEffect(() => {
     if (reportes.data) {

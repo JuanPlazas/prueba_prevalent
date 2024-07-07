@@ -6,10 +6,12 @@ import NewIngresoEgresoPage from "./components/FormNewIngresoEgreso";
 import { useRouter } from "next/navigation"
 import { useToast } from '@/components/ui/use-toast'
 import Loading from "@/components/ui/loading";
+import { useSession } from "next-auth/react";
 
 function IngresosEgresosPage() {
   const router = useRouter()
   const { toast } = useToast()
+  const { data: session } = useSession()
   const ingresosEgresos = useQuery(getIngresosEgresosQuery);
   const ingresosEgresosConceptos = useQuery(getIngresosEgresosConceptosQuery);
   const [ingresosEgresosData, setIngresosEgresosData] = useState([])
@@ -44,7 +46,8 @@ function IngresosEgresosPage() {
           id_concepto: ingresoEgreso.concepto.id,
           concepto: ingresoEgreso.concepto.name,
           id_user: ingresoEgreso.user.id,
-          user: ingresoEgreso.user.name
+          user: ingresoEgreso.user.name,
+          fecha: new Date(Number(ingresoEgreso.fecha)).toLocaleDateString("es-es")
         }
 
         ingresosEgresosLoad.push(dataLoad)
@@ -57,6 +60,7 @@ function IngresosEgresosPage() {
   const saveIngresoEgreso = async (dataForm) => {
     try {
       dataForm.fecha = new Date(dataForm.fecha).toISOString()
+      dataForm.id_user = session.user.id
       const response = await fetch('/api/graphql', {
         method: 'POST',
         headers: {

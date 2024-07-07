@@ -33,7 +33,7 @@ export const createIngresosEgresosQuery = (dataForm) => `
       id_concepto: ${dataForm.concepto}
       monto: ${dataForm.monto}
       fecha: "${dataForm.fecha}"
-      id_user: 3
+      id_user: ${dataForm.id_user}
     }) {
       id
     }
