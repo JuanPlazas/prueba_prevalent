@@ -1,6 +1,4 @@
-import { gql } from "@apollo/client";
-
-export const getIngresosEgresosQuery = gql`
+export const getIngresosEgresosQuery = `
   query getIngresosEgresosQuery {
     getIngresosEgresos {
       id
@@ -18,7 +16,7 @@ export const getIngresosEgresosQuery = gql`
   }
 `;
 
-export const getIngresosEgresosConceptosQuery = gql`
+export const getIngresosEgresosConceptosQuery = `
   query getIngresosEgresosConceptosQuery{
     getIngresosEgresosConceptos {
       id

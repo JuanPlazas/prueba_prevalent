@@ -1,4 +1,3 @@
-import { useQuery } from '@apollo/client';
 import { getReportesPorRangoFechaQuery } from "./queries"
 import React, { useEffect, useState } from 'react'
 import { Chart } from 'chart.js/auto';
@@ -6,6 +5,7 @@ import Loading from '@/components/ui/loading';
 import * as XLSX from 'xlsx';
 import { useSession } from 'next-auth/react';
 import NeedAdminComponent from '@/components/ui/needAdmin';
+import { peticionGraphql } from '@/shared/fetchShare';
 
 function ReportesPage() {
   const rangoFechas = [
@@ -14,25 +14,37 @@ function ReportesPage() {
     { amout: 1, unit: "month", title: "Ultima mes" },
     { amout: 1, unit: "year", title: "Ultima año" },
   ]
-
   const [canvas, setCanvas] = useState(null)
   const [saldo, setSaldo] = useState("")
   const [dataCSV, setDataCSV] = useState([])
   const [rangoFechaSelect, setRangoFechaSelect] = useState(rangoFechas[0].unit)
-  const reportes = useQuery(getReportesPorRangoFechaQuery({ amount: 1, unit: rangoFechaSelect }));
+  const [reportesData, setReportesData] = useState(null)
+  const [isLoading, setIsLoading] = useState(false)
   const { data: session } = useSession()
+
+  useEffect(() => {
+    if(session){
+      getResportesData()
+    }
+  }, [session, rangoFechaSelect])
+
+  useEffect(() => {
+    if(reportesData) {
+      buildGraphic(reportesData)
+      loadDate(reportesData)
+    }
+  }, [reportesData])
 
   if(session?.user.id_rol != 1) { // si no es admin no puede ingresar
     return <NeedAdminComponent />
   }
 
-
-  useEffect(() => {
-    if (reportes.data) {
-      buildGraphic(reportes.data.getReportesPorRangoFecha)
-      loadDate(reportes.data.getReportesPorRangoFecha)
-    }
-  }, [reportes.data])
+  const getResportesData = async () => {
+    setIsLoading(true)
+    const reportes = await peticionGraphql(getReportesPorRangoFechaQuery({ amount: 1, unit: rangoFechaSelect }) , session.user.authorization)
+    setReportesData(reportes?.data?.getReportesPorRangoFecha)
+    setIsLoading(false)
+  }
 
   const descargarExcel = () => {
     const workbook = XLSX.utils.book_new();
@@ -121,7 +133,7 @@ function ReportesPage() {
   return (
     <div className="w-full flex flex-col h-[calc(100vh-7rem)]">
       {
-        (reportes.loading) && (
+        isLoading && (
           <Loading />
         )
       }

@@ -8,17 +8,16 @@ import { useToast } from '@/components/ui/use-toast'
 import Loading from "@/components/ui/loading";
 import { useSession } from "next-auth/react";
 import NeedAdminComponent from "@/components/ui/needAdmin";
+import { peticionGraphql } from "@/shared/fetchShare";
 
 function UsersPage() {
   const router = useRouter()
   const { toast } = useToast()
-  const users = useQuery(getUsersQuery);
-  const userRoles = useQuery(getUserRolesrQuery);
   const [usersData, setusersData] = useState([])
   const [userRolesData, setUserRolesData] = useState([])
   const [isUpdateUser, setIsUpdateUser] = useState(false)
   const [currentUser, setCurrentUser] = useState(null)
-  const [loading, setLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
   const usersHeaders = [
     "Nombre",
     "Email",
@@ -28,49 +27,45 @@ function UsersPage() {
   ]
   const { data: session } = useSession()
 
+  useEffect(() => {
+    setIsLoading(true)
+    if(session){
+      peticion()
+    }
+    async function peticion() {
+      const users = await peticionGraphql(getUsersQuery , session.user.authorization)
+      const userRoles = await peticionGraphql(getUserRolesrQuery , session.user.authorization)
+      loadUsers(users)
+      setUserRolesData(userRoles.data.getUserRoles)
+      setIsLoading(false)
+    }
+  }, [session])
+
   if(session?.user.id_rol != 1) { // si no es admin no puede ingresar
     return <NeedAdminComponent />
   }
 
-  useEffect(() => {
-      loadUsers()
-  }, [users.data])
-
-  useEffect(() => {
-    if(userRoles.data){
-      setUserRolesData(userRoles.data.getUserRoles)
-    }
-  }, [userRoles.data])
-
   const handlerIsUpdateUser = async (idUser) => {
     try {
-      setLoading(true)
-      const response = await fetch('/api/graphql', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({query: getUserQuery(idUser)}),
-      });
+      setIsLoading(true)
+      const response =  await peticionGraphql(getUserQuery(idUser) , session.user.authorization)
 
-      const responseData = await response.json();
-
-      if(responseData.errors && responseData.errors.length > 0) {
-        setLoading(false)
+      if(response.errors && response.errors.length > 0) {
+        setIsLoading(false)
         toast({
           title: "Error",
-          description: responseData.errors[0].message,
+          description: response.errors[0].message,
           variant: "destructive"
         })
       }
 
-      if(responseData?.data?.getUser?.id) {
-        setCurrentUser(responseData.data.getUser)
+      if(response?.data?.getUser?.id) {
+        setCurrentUser(response.data.getUser)
         setIsUpdateUser(!isUpdateUser)
-        setLoading(false)
+        setIsLoading(false)
       }
     } catch (error) {
-      setLoading(false)
+      setIsLoading(false)
       console.error('Error en la ejecución de la consulta:', error);
       toast({
         title: "Error",
@@ -80,7 +75,7 @@ function UsersPage() {
     }
   }
 
-  const loadUsers = () => {
+  const loadUsers = (users) => {
     if (users.data) {
       const { getUsers } = users.data
       const usersLoad = []
@@ -104,38 +99,29 @@ function UsersPage() {
 
   const updateUser = async (dataForm) => {
     try {
-      setLoading(true)
-      const response = await fetch('/api/graphql', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({query: updateUserQuery(dataForm)}),
-      });
-
-      const responseData = await response.json();
-
-      if(responseData.errors && responseData.errors.length > 0) {
-        setLoading(false)
+      setIsLoading(true)
+      const response = await peticionGraphql(updateUserQuery(dataForm) , session.user.authorization)
+      if(response.errors && response.errors.length > 0) {
+        setIsLoading(false)
         toast({
           title: "Error",
-          description: responseData.errors[0].message,
+          description: response.errors[0].message,
           variant: "destructive"
         })
       }
 
-      if(responseData?.data?.updateUser?.id) {
+      if(response?.data?.updateUser?.id) {
         toast({
           title: "Exito",
           description: "Usuario actualizado con exito",
           className: "bg-green-600 text-white"
         })
-        setLoading(false)
+        setIsLoading(false)
         router.refresh()
       }
 
     } catch (error) {
-      setLoading(false)
+      setIsLoading(false)
       console.error('Error en la ejecución de la consulta:', error);
       toast({
         title: "Error",
@@ -148,7 +134,7 @@ function UsersPage() {
   return (
     <div className="w-full flex flex-col h-[calc(100vh-7rem)]">
       {
-        (users.loading || userRoles.loading || loading) && (
+        isLoading && (
           <Loading/>
         )
       }

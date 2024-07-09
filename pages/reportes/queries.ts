@@ -1,7 +1,4 @@
-import { formatValue } from "@/shared/formatValues";
-import { gql } from "@apollo/client";
-
-export const getReportesPorRangoFechaQuery = ({amount, unit}) => gql`
+export const getReportesPorRangoFechaQuery = ({amount, unit}) => `
   query getReportesPorRangoFechaQuery {
     getReportesPorRangoFecha(input: {
     amount: ${amount},

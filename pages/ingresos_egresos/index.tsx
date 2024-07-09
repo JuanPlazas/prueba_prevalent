@@ -1,4 +1,3 @@
-import { useQuery } from "@apollo/client";
 import { getIngresosEgresosQuery, getIngresosEgresosConceptosQuery, createIngresosEgresosQuery } from "./queries"
 import { useEffect, useState } from "react";
 import { TablaIngresosEgresos } from "./components/TablaIngresosEgresos"
@@ -7,16 +6,17 @@ import { useRouter } from "next/navigation"
 import { useToast } from '@/components/ui/use-toast'
 import Loading from "@/components/ui/loading";
 import { useSession } from "next-auth/react";
+import { peticionGraphql } from "@/shared/fetchShare";
 
 function IngresosEgresosPage() {
   const router = useRouter()
   const { toast } = useToast()
   const { data: session } = useSession()
-  const ingresosEgresos = useQuery(getIngresosEgresosQuery);
-  const ingresosEgresosConceptos = useQuery(getIngresosEgresosConceptosQuery);
   const [ingresosEgresosData, setIngresosEgresosData] = useState([])
   const [ingresosEgresosConceptosData, setIngresosEgresosConceptosData] = useState([])
   const [isNewIngresoEgreso, setIsNewIngresoEgreso] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
+  
   const ingresosEgresosHeaders = [
     "Concepto",
     "Monto",
@@ -25,16 +25,20 @@ function IngresosEgresosPage() {
   ]
 
   useEffect(() => {
-      loadIngresosEgresos()
-  }, [ingresosEgresos.data])
-
-  useEffect(() => {
-    if(ingresosEgresosConceptos.data){
-      setIngresosEgresosConceptosData(ingresosEgresosConceptos.data.getIngresosEgresosConceptos)
+    setIsLoading(true)
+    if(session){
+      peticion()
     }
-  }, [ingresosEgresosConceptos.data])
+    async function peticion() {
+      const ingresosEgresos = await peticionGraphql(getIngresosEgresosQuery , session.user.authorization)
+      const ingresosEgresosConceptos = await peticionGraphql(getIngresosEgresosConceptosQuery , session.user.authorization)
+      setIngresosEgresosConceptosData(ingresosEgresosConceptos.data.getIngresosEgresosConceptos)
+      loadIngresosEgresos(ingresosEgresos)
+      setIsLoading(false)
+    }
+  }, [session])
 
-  const loadIngresosEgresos = () => {
+  const loadIngresosEgresos = (ingresosEgresos) => {
     if (ingresosEgresos.data) {
       const { getIngresosEgresos } = ingresosEgresos.data
       const ingresosEgresosLoad = []
@@ -101,7 +105,7 @@ function IngresosEgresosPage() {
   return (
     <div className="w-full flex flex-col h-[calc(100vh-7rem)]">
       {
-        (ingresosEgresos.loading || ingresosEgresosConceptos.loading) && (
+        isLoading && (
           <Loading/>
         )
       }

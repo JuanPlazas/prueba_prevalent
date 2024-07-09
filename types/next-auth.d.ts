@@ -8,6 +8,7 @@ declare module "next-auth" {
       name: string
       telefono: string
       id_rol: int
+      authorization: string
     };
   }
 }
@@ -19,5 +20,6 @@ declare module "next-auth" {
       name: string
       telefono: string
       id_rol: int
+      authorization: string
     };
 }

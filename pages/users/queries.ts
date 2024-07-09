@@ -1,7 +1,6 @@
 import { formatValue } from "@/shared/formatValues";
-import { gql } from "@apollo/client";
 
-export const getUsersQuery = gql`
+export const getUsersQuery = `
   query getUsersQuery {
     getUsers {
       id
@@ -16,7 +15,7 @@ export const getUsersQuery = gql`
   }
 `;
 
-export const getUserRolesrQuery = gql`
+export const getUserRolesrQuery = `
   query getUserRolesrQuery {
     getUserRoles {
       id
