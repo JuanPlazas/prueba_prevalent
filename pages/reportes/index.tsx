@@ -1,4 +1,4 @@
-import { getReportesPorRangoFechaQuery } from "./queries"
+import { getReportesPorRangoFechaQuery } from "../../shared/queries/reportes/queries"
 import React, { useEffect, useState } from 'react'
 import { Chart } from 'chart.js/auto';
 import Loading from '@/components/ui/loading';
@@ -6,6 +6,7 @@ import * as XLSX from 'xlsx';
 import { useSession } from 'next-auth/react';
 import NeedAdminComponent from '@/components/ui/needAdmin';
 import { peticionGraphql } from '@/shared/fetchShare';
+import { formatCash } from "@/shared/formatValues";
 
 function ReportesPage() {
   const rangoFechas = [
@@ -67,10 +68,7 @@ function ReportesPage() {
 
       dataLoad.push({
         concepto: reporte.concepto.name,
-        monto: new Intl.NumberFormat('es-CO', {
-          style: 'currency',
-          currency: 'COP'
-        }).format(reporte.monto),
+        monto: formatCash(reporte.monto),
         fecha: new Date(Number(reporte.fecha)).toLocaleDateString("es-Es"),
         user: reporte.user.name,
         user_email: reporte.user.email
@@ -78,10 +76,7 @@ function ReportesPage() {
     })
 
     setDataCSV(dataLoad);
-    setSaldo(new Intl.NumberFormat('es-CO', {
-      style: 'currency',
-      currency: 'COP'
-    }).format(totalSaldo))
+    setSaldo(formatCash(totalSaldo))
   }
 
   const buildGraphic = async (reportesData) => {

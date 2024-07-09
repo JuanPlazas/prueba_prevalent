@@ -5,3 +5,10 @@ export function formatValue(value) {
     return value;
   }
 }
+
+export function formatCash(cash: number) {
+  return new Intl.NumberFormat('es-CO', {
+    style: 'currency',
+    currency: 'COP'
+  }).format(cash)
+}

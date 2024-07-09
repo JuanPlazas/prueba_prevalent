@@ -30,10 +30,10 @@ function NewIngresoEgresoPage({ ingresosEgresosConceptos, saveIngresoEgreso }) {
         <label htmlFor='concepto' className='text-white mt-2 block text-sm'>Concepto</label>
         <select {...register("concepto")}
           className='p-3 rounded bg-slate-900 text-slate-300 w-full my-1'
-          defaultValue={ingresosEgresosConceptos[0].id}
+          defaultValue={ingresosEgresosConceptos?.length ? ingresosEgresosConceptos[0]?.id : null}
         >
           {
-            ingresosEgresosConceptos.map((concepto) => (
+            ingresosEgresosConceptos?.map((concepto) => (
               <option key={`concepto_${concepto.id}`} value={concepto.id}>{concepto.name}</option>
             ))
           }

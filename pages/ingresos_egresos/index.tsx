@@ -1,12 +1,13 @@
-import { getIngresosEgresosQuery, getIngresosEgresosConceptosQuery, createIngresosEgresosQuery } from "./queries"
+import { getIngresosEgresosQuery, getIngresosEgresosConceptosQuery, createIngresosEgresosQuery } from "../../shared/queries/ingresosEgresos/queries"
 import { useEffect, useState } from "react";
-import { TablaIngresosEgresos } from "./components/TablaIngresosEgresos"
+import TablaIngresosEgresos from "./components/TablaIngresosEgresos"
 import NewIngresoEgresoPage from "./components/FormNewIngresoEgreso";
 import { useRouter } from "next/navigation"
 import { useToast } from '@/components/ui/use-toast'
 import Loading from "@/components/ui/loading";
 import { useSession } from "next-auth/react";
 import { peticionGraphql } from "@/shared/fetchShare";
+import { formatCash, formatValue } from "@/shared/formatValues";
 
 function IngresosEgresosPage() {
   const router = useRouter()
@@ -48,7 +49,7 @@ function IngresosEgresosPage() {
       getIngresosEgresos.map((ingresoEgreso) => {
         const dataLoad = {
           id: ingresoEgreso.id,
-          monto: ingresoEgreso.monto,
+          monto: formatCash(ingresoEgreso.monto),
           id_concepto: ingresoEgreso.concepto.id,
           concepto: ingresoEgreso.concepto.name,
           id_user: ingresoEgreso.user.id,
@@ -65,10 +66,7 @@ function IngresosEgresosPage() {
         ingresosEgresosLoad.push(dataLoad)
       })
 
-      setSaldo(new Intl.NumberFormat('es-CO', {
-        style: 'currency',
-        currency: 'COP'
-      }).format(totalSaldo))
+      setSaldo(formatCash(totalSaldo))
       setIngresosEgresosData(ingresosEgresosLoad.reverse())
     }
   }

@@ -7,13 +7,13 @@ import {
   TableRow,
 } from "@/components/ui/Table"
 
-export function TablaIngresosEgresos({ ingresosEgresosHeaders, ingresosEgresosData }) {
+function TablaIngresosEgresos({ ingresosEgresosHeaders, ingresosEgresosData }) {
   return (
     <Table>
       <TableHeader>
         <TableRow>
           {
-            ingresosEgresosHeaders.map((header) => (
+            ingresosEgresosHeaders?.map((header) => (
               <TableHead className="text-white bg-gray-700" key={`header_${header}`}>{header}</TableHead>
             ))
           }
@@ -21,7 +21,7 @@ export function TablaIngresosEgresos({ ingresosEgresosHeaders, ingresosEgresosDa
       </TableHeader>
       <TableBody>
         {
-          ingresosEgresosData.map((data) => (
+          ingresosEgresosData?.map((data) => (
             <TableRow key={`row_${data.id}`}>
               <TableHead className="text-white">{data.concepto}</TableHead>
               <TableHead className="text-white">{data.monto}</TableHead>
@@ -34,3 +34,5 @@ export function TablaIngresosEgresos({ ingresosEgresosHeaders, ingresosEgresosDa
     </Table>
   )
 }
+
+export default TablaIngresosEgresos
