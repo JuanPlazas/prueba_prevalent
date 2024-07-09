@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation'
 import { useToast } from "@/components/ui/use-toast";
 
 function LoginPage() {
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  const { register, handleSubmit, formState: { errors } }: any = useForm();
   const router = useRouter()
   const { toast } = useToast()
   const { data: session } = useSession()
