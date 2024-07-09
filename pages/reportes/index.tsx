@@ -14,6 +14,7 @@ function ReportesPage() {
     { amout: 1, unit: "month", title: "Ultima mes" },
     { amout: 1, unit: "year", title: "Ultima año" },
   ]
+
   const [canvas, setCanvas] = useState(null)
   const [saldo, setSaldo] = useState("")
   const [dataCSV, setDataCSV] = useState([])
@@ -80,7 +81,7 @@ function ReportesPage() {
     setSaldo(new Intl.NumberFormat('es-CO', {
       style: 'currency',
       currency: 'COP'
-    }).format(totalSaldo),)
+    }).format(totalSaldo))
   }
 
   const buildGraphic = async (reportesData) => {
@@ -167,8 +168,6 @@ function ReportesPage() {
             Descargar CSV
           </button>
         </div>
-
-
       </div>
       <div className="w-full h-[calc(100vh-10rem)]">
         <canvas

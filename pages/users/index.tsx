@@ -1,4 +1,3 @@
-import { useQuery } from "@apollo/client";
 import { getUsersQuery, getUserQuery, updateUserQuery, getUserRolesrQuery } from "./queries"
 import { useEffect, useState } from "react";
 import { TablaUsers } from "./components/TablaUsers"
@@ -29,28 +28,28 @@ function UsersPage() {
 
   useEffect(() => {
     setIsLoading(true)
-    if(session){
+    if (session) {
       peticion()
     }
     async function peticion() {
-      const users = await peticionGraphql(getUsersQuery , session.user.authorization)
-      const userRoles = await peticionGraphql(getUserRolesrQuery , session.user.authorization)
+      const users = await peticionGraphql(getUsersQuery, session.user.authorization)
+      const userRoles = await peticionGraphql(getUserRolesrQuery, session.user.authorization)
       loadUsers(users)
       setUserRolesData(userRoles.data.getUserRoles)
       setIsLoading(false)
     }
   }, [session])
 
-  if(session?.user.id_rol != 1) { // si no es admin no puede ingresar
+  if (session?.user.id_rol != 1) { // si no es admin no puede ingresar
     return <NeedAdminComponent />
   }
 
   const handlerIsUpdateUser = async (idUser) => {
     try {
       setIsLoading(true)
-      const response =  await peticionGraphql(getUserQuery(idUser) , session.user.authorization)
+      const response = await peticionGraphql(getUserQuery(idUser), session.user.authorization)
 
-      if(response.errors && response.errors.length > 0) {
+      if (response.errors && response.errors.length > 0) {
         setIsLoading(false)
         toast({
           title: "Error",
@@ -59,7 +58,7 @@ function UsersPage() {
         })
       }
 
-      if(response?.data?.getUser?.id) {
+      if (response?.data?.getUser?.id) {
         setCurrentUser(response.data.getUser)
         setIsUpdateUser(!isUpdateUser)
         setIsLoading(false)
@@ -100,8 +99,8 @@ function UsersPage() {
   const updateUser = async (dataForm) => {
     try {
       setIsLoading(true)
-      const response = await peticionGraphql(updateUserQuery(dataForm) , session.user.authorization)
-      if(response.errors && response.errors.length > 0) {
+      const response = await peticionGraphql(updateUserQuery(dataForm), session.user.authorization)
+      if (response.errors && response.errors.length > 0) {
         setIsLoading(false)
         toast({
           title: "Error",
@@ -110,7 +109,7 @@ function UsersPage() {
         })
       }
 
-      if(response?.data?.updateUser?.id) {
+      if (response?.data?.updateUser?.id) {
         toast({
           title: "Exito",
           description: "Usuario actualizado con exito",
@@ -135,7 +134,7 @@ function UsersPage() {
     <div className="w-full flex flex-col h-[calc(100vh-7rem)]">
       {
         isLoading && (
-          <Loading/>
+          <Loading />
         )
       }
       <div className="my-10 flex flex-row justify-between items-center">
@@ -156,7 +155,7 @@ function UsersPage() {
       <div className="w-full flex flex-col h-[calc(100vh-7rem)] bg-gray-500 overflow-auto">
         {
           isUpdateUser ?
-            <UpdateUserPage 
+            <UpdateUserPage
               roles={userRolesData}
               updateUser={updateUser}
               currentUser={currentUser}

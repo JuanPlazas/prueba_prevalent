@@ -16,7 +16,8 @@ function IngresosEgresosPage() {
   const [ingresosEgresosConceptosData, setIngresosEgresosConceptosData] = useState([])
   const [isNewIngresoEgreso, setIsNewIngresoEgreso] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
-  
+  const [saldo, setSaldo] = useState("")
+
   const ingresosEgresosHeaders = [
     "Concepto",
     "Monto",
@@ -26,12 +27,12 @@ function IngresosEgresosPage() {
 
   useEffect(() => {
     setIsLoading(true)
-    if(session){
+    if (session) {
       peticion()
     }
     async function peticion() {
-      const ingresosEgresos = await peticionGraphql(getIngresosEgresosQuery , session.user.authorization)
-      const ingresosEgresosConceptos = await peticionGraphql(getIngresosEgresosConceptosQuery , session.user.authorization)
+      const ingresosEgresos = await peticionGraphql(getIngresosEgresosQuery, session.user.authorization)
+      const ingresosEgresosConceptos = await peticionGraphql(getIngresosEgresosConceptosQuery, session.user.authorization)
       setIngresosEgresosConceptosData(ingresosEgresosConceptos.data.getIngresosEgresosConceptos)
       loadIngresosEgresos(ingresosEgresos)
       setIsLoading(false)
@@ -42,6 +43,7 @@ function IngresosEgresosPage() {
     if (ingresosEgresos.data) {
       const { getIngresosEgresos } = ingresosEgresos.data
       const ingresosEgresosLoad = []
+      let totalSaldo = 0
 
       getIngresosEgresos.map((ingresoEgreso) => {
         const dataLoad = {
@@ -54,10 +56,20 @@ function IngresosEgresosPage() {
           fecha: new Date(Number(ingresoEgreso.fecha)).toLocaleDateString("es-es")
         }
 
+        if (ingresoEgreso.concepto.id == 1) { //id de ingreso de la tabla de parametrizacion ingresosEgresosConceptos
+          totalSaldo = totalSaldo + ingresoEgreso.monto
+        } else if (ingresoEgreso.concepto.id == 2) { //id de egreso de la tabla de parametrizacion ingresosEgresosConceptos
+          totalSaldo = totalSaldo - ingresoEgreso.monto
+        }
+
         ingresosEgresosLoad.push(dataLoad)
       })
 
-      setIngresosEgresosData(ingresosEgresosLoad)
+      setSaldo(new Intl.NumberFormat('es-CO', {
+        style: 'currency',
+        currency: 'COP'
+      }).format(totalSaldo))
+      setIngresosEgresosData(ingresosEgresosLoad.reverse())
     }
   }
 
@@ -65,25 +77,16 @@ function IngresosEgresosPage() {
     try {
       dataForm.fecha = new Date(dataForm.fecha).toISOString()
       dataForm.id_user = session.user.id
-      const response = await fetch('/api/graphql', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({query: createIngresosEgresosQuery(dataForm)}),
-      });
-
-      const responseData = await response.json();
-
-      if(responseData.errors && responseData.errors.length > 0) {
+      const response = await peticionGraphql(createIngresosEgresosQuery(dataForm), session.user.authorization)
+      if (response.errors && response.errors.length > 0) {
         toast({
           title: "Error",
-          description: responseData.errors[0].message,
+          description: response.errors[0].message,
           variant: "destructive"
         })
       }
 
-      if(responseData?.data?.createIngresosEgresos?.id) {
+      if (response?.data?.createIngresosEgresos?.id) {
         toast({
           title: "Exito",
           description: "IngresoEgreso creado con exito",
@@ -106,7 +109,7 @@ function IngresosEgresosPage() {
     <div className="w-full flex flex-col h-[calc(100vh-7rem)]">
       {
         isLoading && (
-          <Loading/>
+          <Loading />
         )
       }
       <div className="my-10 flex flex-row justify-between items-center">
@@ -123,9 +126,9 @@ function IngresosEgresosPage() {
       <div className="w-full flex flex-col h-[calc(100vh-7rem)] bg-gray-500 overflow-auto">
         {
           isNewIngresoEgreso ?
-            <NewIngresoEgresoPage 
-            ingresosEgresosConceptos={ingresosEgresosConceptosData}
-            saveIngresoEgreso={saveIngresoEgreso}
+            <NewIngresoEgresoPage
+              ingresosEgresosConceptos={ingresosEgresosConceptosData}
+              saveIngresoEgreso={saveIngresoEgreso}
             />
             :
             <TablaIngresosEgresos
@@ -134,7 +137,9 @@ function IngresosEgresosPage() {
             />
         }
       </div>
-
+      <div className="w-full flex justify-end">
+        <p className="bg-gray-500 text-white rounded-md p-2 mt-2">Total: {saldo}</p>
+      </div>
     </div>
   )
 }

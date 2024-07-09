@@ -1,6 +1,6 @@
 import db from "@/lib/db"
 
-const createLogin = async (_: any, {input}: any) => {
+const createLogin = async (_: any, { input }: any) => {
   const newLogin = await db.login.create({
     data: input,
     include: {
@@ -10,7 +10,7 @@ const createLogin = async (_: any, {input}: any) => {
   return newLogin
 }
 
-const getLoginByIdUser = async (_: any, {input}: any) => {
+const getLoginByIdUser = async (_: any, { input }: any) => {
   const user = await db.login.findUnique({
     where: {
       id_user: input.id_user

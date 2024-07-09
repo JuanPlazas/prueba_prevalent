@@ -15,7 +15,7 @@ const getIngresosEgresos = async () => {
   return ingresosEgresos
 }
 
-const createIngresosEgresos = async (_: any, {input}: any) => {
+const createIngresosEgresos = async (_: any, { input }: any) => {
   const newIngresosEgresos = await db.ingresosEgresos.create({
     data: input,
     include: {
@@ -30,7 +30,7 @@ const createIngresosEgresos = async (_: any, {input}: any) => {
   return newIngresosEgresos
 }
 
-const getIngresoEgreso = async (_: any, {input}: any) => {
+const getIngresoEgreso = async (_: any, { input }: any) => {
   const ingresoEgreso = await db.ingresosEgresos.findUnique({
     where: {
       id: input.id
@@ -48,7 +48,7 @@ const getIngresoEgreso = async (_: any, {input}: any) => {
   return ingresoEgreso
 }
 
-const updateIngresoEgreso = async (_: any, {input}: any) => {
+const updateIngresoEgreso = async (_: any, { input }: any) => {
   const updatedIngresoEgreso = await db.ingresosEgresos.update({
     where: {
       id: input.id
@@ -66,7 +66,7 @@ const updateIngresoEgreso = async (_: any, {input}: any) => {
   return updatedIngresoEgreso
 }
 
-const deleteIngresoEgreso = async (_: any, {input}: any) => {
+const deleteIngresoEgreso = async (_: any, { input }: any) => {
   const deletedIngresoEgreso = await db.ingresosEgresos.delete({
     where: {
       id: input.id

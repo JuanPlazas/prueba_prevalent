@@ -1,11 +1,11 @@
 import { useForm } from 'react-hook-form'
 
-function UpdateUserPage({roles, updateUser, currentUser}) {
+function UpdateUserPage({ roles, updateUser, currentUser }) {
   const { register, handleSubmit, formState: { errors } } = useForm()
 
   const onSubmit = handleSubmit(async (dataForm) => {
     dataForm.id_rol = parseInt(dataForm.id_rol)
-    updateUser({id: currentUser.id, ...dataForm})
+    updateUser({ id: currentUser.id, ...dataForm })
   })
 
   return (
@@ -63,7 +63,7 @@ function UpdateUserPage({roles, updateUser, currentUser}) {
           )
         }
         <label htmlFor='telefono' className='text-white block text-sm'>Telefono</label>
-        <input 
+        <input
           {...(register("telefono", {
             value: currentUser.telefono
           }))}
@@ -77,6 +77,5 @@ function UpdateUserPage({roles, updateUser, currentUser}) {
     </div>
   )
 }
-
 
 export default UpdateUserPage

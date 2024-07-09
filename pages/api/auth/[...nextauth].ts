@@ -14,7 +14,6 @@ const finUserByEmail = async (email: string) => {
   return userFound
 }
 
-
 export default NextAuth({
   providers: [
     CredentialsProvider({
@@ -64,7 +63,7 @@ export default NextAuth({
         params.user.name = userDb.name
         params.user.id_rol = userDb.id_rol
       }
-      
+
       const token = Math.random().toString(36).substring(7)
       const tokenjwt = jwt.sign({
         token,
@@ -90,7 +89,7 @@ export default NextAuth({
             id_user: userDb.id
           },
           data: {
-            token: tokenjwt, 
+            token: tokenjwt,
           }
         })
       }

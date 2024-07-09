@@ -9,7 +9,7 @@ const getUsers = async () => {
   return users
 }
 
-const createUser = async (_: any, {input}: any) => {
+const createUser = async (_: any, { input }: any) => {
   const newUser = await db.user.create({
     data: input,
     include: {
@@ -19,7 +19,7 @@ const createUser = async (_: any, {input}: any) => {
   return newUser
 }
 
-const getUser = async (_: any, {input}: any) => {
+const getUser = async (_: any, { input }: any) => {
   const user = await db.user.findUnique({
     where: {
       id: input.id
@@ -32,7 +32,7 @@ const getUser = async (_: any, {input}: any) => {
   return user
 }
 
-const updateUser = async (_: any, {input}: any) => {
+const updateUser = async (_: any, { input }: any) => {
   const updatedUser = await db.user.update({
     where: {
       id: input.id
@@ -45,7 +45,7 @@ const updateUser = async (_: any, {input}: any) => {
   return updatedUser
 }
 
-const deleteUser = async (_: any, {input}: any) => {
+const deleteUser = async (_: any, { input }: any) => {
   const deletedUser = await db.user.delete({
     where: {
       id: input.id

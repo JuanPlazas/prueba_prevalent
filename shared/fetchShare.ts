@@ -6,7 +6,7 @@ export const peticionGraphql = async (query, token) => {
       'Content-Type': 'application/json',
       'Authorization': token
     },
-    body: JSON.stringify({query}),
+    body: JSON.stringify({ query }),
   });
 
   const responseData = await response.json();

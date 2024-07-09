@@ -3,7 +3,6 @@ import { startServerAndCreateNextHandler } from '@as-integrations/next';
 import { makeExecutableSchema } from '@graphql-tools/schema';
 import { gql } from 'graphql-tag';
 import jwt from "jsonwebtoken"
-import { GraphQLError } from 'graphql';
 import db from '@/lib/db';
 
 /** importacion de nuestros typeDefs */

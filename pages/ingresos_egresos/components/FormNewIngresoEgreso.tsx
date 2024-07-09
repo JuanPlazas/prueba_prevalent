@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form'
 
-function NewIngresoEgresoPage({ingresosEgresosConceptos, saveIngresoEgreso}) {
+function NewIngresoEgresoPage({ ingresosEgresosConceptos, saveIngresoEgreso }) {
   const { register, handleSubmit, formState: { errors } } = useForm()
 
   const onSubmit = handleSubmit(async (dataForm) => {
@@ -44,7 +44,7 @@ function NewIngresoEgresoPage({ingresosEgresosConceptos, saveIngresoEgreso}) {
           )
         }
         <label htmlFor='fecha' className='text-white mt-2 block text-sm'>Fecha</label>
-        <input 
+        <input
           {...(register("fecha", {
             required: {
               value: true,
@@ -52,7 +52,7 @@ function NewIngresoEgresoPage({ingresosEgresosConceptos, saveIngresoEgreso}) {
             }
           }))}
           className='form__input p-3 rounded bg-slate-900 text-slate-300 w-full my-1'
-          type="date"  
+          type="date"
         />
         {
           errors.fecha && (
@@ -66,6 +66,5 @@ function NewIngresoEgresoPage({ingresosEgresosConceptos, saveIngresoEgreso}) {
     </div>
   )
 }
-
 
 export default NewIngresoEgresoPage

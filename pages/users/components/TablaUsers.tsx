@@ -8,19 +8,19 @@ import {
 } from "@/components/ui/Table"
 import { Pencil2Icon } from '@radix-ui/react-icons'
 
-export function TablaUsers({usersHeaders, usersData, setIsUpdateUser}) {
+export function TablaUsers({ usersHeaders, usersData, setIsUpdateUser }) {
   return (
     <Table>
-    <TableHeader>
-      <TableRow>
-        {
-          usersHeaders.map((header) => (
-            <TableHead className="text-white bg-gray-700" key={`header_${header}`}>{header}</TableHead>
-          ))
-        }
-      </TableRow>
-    </TableHeader>
-    <TableBody>
+      <TableHeader>
+        <TableRow>
+          {
+            usersHeaders.map((header) => (
+              <TableHead className="text-white bg-gray-700" key={`header_${header}`}>{header}</TableHead>
+            ))
+          }
+        </TableRow>
+      </TableHeader>
+      <TableBody>
         {
           usersData.map((data) => (
             <TableRow key={`row_${data.id}`}>
@@ -31,12 +31,12 @@ export function TablaUsers({usersHeaders, usersData, setIsUpdateUser}) {
               </TableHead>
               <TableHead className="text-white">{data.rol}</TableHead>
               <TableHead className="text-white flex justify-center items-center">
-                <Pencil2Icon onClick={() => setIsUpdateUser(data.id)}/>
+                <Pencil2Icon onClick={() => setIsUpdateUser(data.id)} />
               </TableHead>
             </TableRow>
           ))
         }
-    </TableBody>
-  </Table>
+      </TableBody>
+    </Table>
   )
 }

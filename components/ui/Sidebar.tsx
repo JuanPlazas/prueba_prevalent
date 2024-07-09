@@ -19,20 +19,20 @@ function Sidebar() {
           {
             dataPages.map((data, index) => (
               (session?.user.id_rol == 1 ||
-              session?.user.id_rol == data.userRol.id) && (  // filtra para el resto de los user
-              <a href={data.url} key={`li_${index}`}>
-                <li
-                  className='bg-slate-800 hover:bg-slate-400 flex justify-center items-center rounded-md my-8 p-5'
-                >
-                  {data.title}
-                </li>
-              </a>
+                session?.user.id_rol == data.userRol.id) && (  // filtra para el resto de los user
+                <a href={data.url} key={`li_${index}`}>
+                  <li
+                    className='bg-slate-800 hover:bg-slate-400 flex justify-center items-center rounded-md my-8 p-5'
+                  >
+                    {data.title}
+                  </li>
+                </a>
               )
             ))
           }
           <li
-              className='bg-red-500 hover:bg-red-300 flex justify-center items-center rounded-md my-8 p-5 text-white'
-              onClick={() => signOut()}
+            className='bg-red-500 hover:bg-red-300 flex justify-center items-center rounded-md my-8 p-5 text-white'
+            onClick={() => signOut()}
           >
             Logout
           </li>

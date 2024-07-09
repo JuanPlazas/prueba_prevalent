@@ -2,8 +2,8 @@
  *  la navegacion, esta siendo usado en HomePage y el componente Sidebar */
 
 /** info sacada de la tabla de parametrizacion UserRol */
-const Admin = {id: 1, rol: "admin"}
-const User = {id: 2, rol: "user"}
+const Admin = { id: 1, rol: "admin" }
+const User = { id: 2, rol: "user" }
 
 export const dataPages = [
   {
