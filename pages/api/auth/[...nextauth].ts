@@ -22,6 +22,7 @@ export default NextAuth({
         email: { label: "email", type: "email", placeholder: "test@test.com" },
         password: { label: "Password", type: "password" },
       },
+      //@ts-ignore
       async authorize(credentials, req) {
         const userFound = await finUserByEmail(credentials.email)
 
