@@ -5,7 +5,7 @@ function UpdateUserPage({ roles, updateUser, currentUser }) {
 
   const onSubmit = handleSubmit(async (dataForm) => {
     dataForm.id_rol = parseInt(dataForm.id_rol)
-    updateUser({ id: currentUser.id, ...dataForm })
+    updateUser({ id: currentUser?.id, ...dataForm })
   })
 
   return (
@@ -19,7 +19,7 @@ function UpdateUserPage({ roles, updateUser, currentUser }) {
               value: true,
               message: "El email es requerido"
             },
-            value: currentUser.email
+            value: currentUser?.email
           }))}
           min={0}
           className='p-3 rounded bg-slate-900 text-slate-300 w-full my-1'
@@ -36,7 +36,7 @@ function UpdateUserPage({ roles, updateUser, currentUser }) {
               value: true,
               message: "El Nombre es requerido"
             },
-            value: currentUser.name
+            value: currentUser?.name
           }))}
           min={0}
           className='p-3 rounded bg-slate-900 text-slate-300 w-full my-1'
@@ -49,10 +49,10 @@ function UpdateUserPage({ roles, updateUser, currentUser }) {
         <label htmlFor='id_rol' className='text-white block text-sm'>Rol</label>
         <select {...register("id_rol")}
           className='p-3 rounded bg-slate-900 text-slate-300 w-full my-1'
-          defaultValue={roles[0].id}
+          defaultValue={roles?.length ? roles[0]?.id : null}
         >
           {
-            roles.map((rol) => (
+            roles?.map((rol) => (
               <option key={`rol_${rol.id}`} value={rol.id}>{rol.rol}</option>
             ))
           }
@@ -65,7 +65,7 @@ function UpdateUserPage({ roles, updateUser, currentUser }) {
         <label htmlFor='telefono' className='text-white block text-sm'>Telefono</label>
         <input
           {...(register("telefono", {
-            value: currentUser.telefono
+            value: currentUser?.telefono
           }))}
           className='form__input p-3 rounded bg-slate-900 text-slate-300 w-full my-1'
           type="tel"

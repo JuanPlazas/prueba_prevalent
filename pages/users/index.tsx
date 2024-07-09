@@ -1,6 +1,6 @@
-import { getUsersQuery, getUserQuery, updateUserQuery, getUserRolesrQuery } from "./queries"
+import { getUsersQuery, getUserQuery, updateUserQuery, getUserRolesrQuery } from "../../shared/queries/users/queries"
 import { useEffect, useState } from "react";
-import { TablaUsers } from "./components/TablaUsers"
+import TablaUsers from "./components/TablaUsers"
 import UpdateUserPage from "./components/FormUpdateUser";
 import { useRouter } from "next/navigation"
 import { useToast } from '@/components/ui/use-toast'
