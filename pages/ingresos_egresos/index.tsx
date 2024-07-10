@@ -5,14 +5,12 @@ import NewIngresoEgresoPage from "./components/FormNewIngresoEgreso";
 import { useRouter } from "next/navigation"
 import { useToast } from '@/components/ui/use-toast'
 import Loading from "@/components/ui/loading";
-import { useSession } from "next-auth/react";
 import { peticionGraphql } from "@/shared/fetchShare";
 import { formatCash, formatValue } from "@/shared/formatValues";
 
-function IngresosEgresosPage() {
+function IngresosEgresosPage({Seccion}) {
   const router = useRouter()
   const { toast } = useToast()
-  const { data: session } = useSession()
   const [ingresosEgresosData, setIngresosEgresosData] = useState([])
   const [ingresosEgresosConceptosData, setIngresosEgresosConceptosData] = useState([])
   const [isNewIngresoEgreso, setIsNewIngresoEgreso] = useState(false)
@@ -28,17 +26,17 @@ function IngresosEgresosPage() {
 
   useEffect(() => {
     setIsLoading(true)
-    if (session) {
+    if (Seccion) {
       peticion()
     }
     async function peticion() {
-      const ingresosEgresos = await peticionGraphql(getIngresosEgresosQuery, session.user.authorization)
-      const ingresosEgresosConceptos = await peticionGraphql(getIngresosEgresosConceptosQuery, session.user.authorization)
-      setIngresosEgresosConceptosData(ingresosEgresosConceptos.data.getIngresosEgresosConceptos)
+      const ingresosEgresos = await peticionGraphql(getIngresosEgresosQuery, Seccion.user.authorization)
+      const ingresosEgresosConceptos = await peticionGraphql(getIngresosEgresosConceptosQuery, Seccion.user.authorization)
+      setIngresosEgresosConceptosData(ingresosEgresosConceptos?.data?.getIngresosEgresosConceptos)
       loadIngresosEgresos(ingresosEgresos)
       setIsLoading(false)
     }
-  }, [session])
+  }, [Seccion])
 
   const loadIngresosEgresos = (ingresosEgresos) => {
     if (ingresosEgresos.data) {
@@ -74,8 +72,8 @@ function IngresosEgresosPage() {
   const saveIngresoEgreso = async (dataForm) => {
     try {
       dataForm.fecha = new Date(dataForm.fecha).toISOString()
-      dataForm.id_user = session.user.id
-      const response = await peticionGraphql(createIngresosEgresosQuery(dataForm), session.user.authorization)
+      dataForm.id_user = Seccion.user.id
+      const response = await peticionGraphql(createIngresosEgresosQuery(dataForm), Seccion.user.authorization)
       if (response.errors && response.errors.length > 0) {
         toast({
           title: "Error",

@@ -1,6 +1,4 @@
 import { getToken } from "next-auth/jwt"
-import { useSession } from "next-auth/react"
-import { useRouter } from "next/navigation"
 import { NextRequest, NextResponse } from "next/server"
 
 export { default } from "next-auth/middleware"
