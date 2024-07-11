@@ -5,11 +5,10 @@ import UpdateUserPage from "./components/FormUpdateUser";
 import { useRouter } from "next/navigation"
 import { useToast } from '@/components/ui/use-toast'
 import Loading from "@/components/ui/loading";
-import { useSession } from "next-auth/react";
 import NeedAdminComponent from "@/components/ui/needAdmin";
 import { peticionGraphql } from "@/shared/fetchShare";
 
-function UsersPage() {
+function UsersPage({Seccion}) {
   const router = useRouter()
   const { toast } = useToast()
   const [usersData, setusersData] = useState([])
@@ -24,30 +23,29 @@ function UsersPage() {
     "Rol",
     "Accion",
   ]
-  const { data: session } = useSession()
 
   useEffect(() => {
     setIsLoading(true)
-    if (session) {
+    if (Seccion) {
       peticion()
     }
     async function peticion() {
-      const users = await peticionGraphql(getUsersQuery, session.user.authorization)
-      const userRoles = await peticionGraphql(getUserRolesrQuery, session.user.authorization)
+      const users = await peticionGraphql(getUsersQuery, Seccion.user.authorization)
+      const userRoles = await peticionGraphql(getUserRolesrQuery, Seccion.user.authorization)
       loadUsers(users)
-      setUserRolesData(userRoles.data.getUserRoles)
+      setUserRolesData(userRoles?.data?.getUserRoles)
       setIsLoading(false)
     }
-  }, [session])
+  }, [Seccion])
 
-  if (session?.user.id_rol != 1) { // si no es admin no puede ingresar
+  if (Seccion?.user.id_rol != 1) { // si no es admin no puede ingresar
     return <NeedAdminComponent />
   }
 
   const handlerIsUpdateUser = async (idUser) => {
     try {
       setIsLoading(true)
-      const response = await peticionGraphql(getUserQuery(idUser), session.user.authorization)
+      const response = await peticionGraphql(getUserQuery(idUser), Seccion.user.authorization)
 
       if (response.errors && response.errors.length > 0) {
         setIsLoading(false)
@@ -99,7 +97,7 @@ function UsersPage() {
   const updateUser = async (dataForm) => {
     try {
       setIsLoading(true)
-      const response = await peticionGraphql(updateUserQuery(dataForm), session.user.authorization)
+      const response = await peticionGraphql(updateUserQuery(dataForm), Seccion.user.authorization)
       if (response.errors && response.errors.length > 0) {
         setIsLoading(false)
         toast({

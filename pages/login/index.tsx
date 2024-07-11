@@ -1,15 +1,14 @@
 import { useForm } from "react-hook-form";
-import { signIn, useSession } from "next-auth/react";
+import { signIn } from "next-auth/react";
 import { useRouter } from 'next/navigation'
 import { useToast } from "@/components/ui/use-toast";
 
-function LoginPage() {
+function LoginPage({Seccion}) {
   const { register, handleSubmit, formState: { errors } }: any = useForm();
   const router = useRouter()
   const { toast } = useToast()
-  const { data: session } = useSession()
 
-  if (session) { // si no es admin no puede ingresar
+  if (Seccion) { // si no es admin no puede ingresar
     router.push("/")
   }
 

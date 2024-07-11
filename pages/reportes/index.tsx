@@ -3,12 +3,11 @@ import React, { useEffect, useState } from 'react'
 import { Chart } from 'chart.js/auto';
 import Loading from '@/components/ui/loading';
 import * as XLSX from 'xlsx';
-import { useSession } from 'next-auth/react';
 import NeedAdminComponent from '@/components/ui/needAdmin';
 import { peticionGraphql } from '@/shared/fetchShare';
 import { formatCash } from "@/shared/formatValues";
 
-function ReportesPage() {
+function ReportesPage({ Seccion }) {
   const rangoFechas = [
     { amout: null, unit: "", title: "Hoy" },
     { amout: 1, unit: "week", title: "Ultima semana" },
@@ -22,28 +21,27 @@ function ReportesPage() {
   const [rangoFechaSelect, setRangoFechaSelect] = useState(rangoFechas[0].unit)
   const [reportesData, setReportesData] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
-  const { data: session } = useSession()
 
   useEffect(() => {
-    if(session){
+    if (Seccion) {
       getResportesData()
     }
-  }, [session, rangoFechaSelect])
+  }, [Seccion, rangoFechaSelect])
 
   useEffect(() => {
-    if(reportesData) {
+    if (reportesData) {
       buildGraphic(reportesData)
       loadDate(reportesData)
     }
   }, [reportesData])
 
-  if(session?.user.id_rol != 1) { // si no es admin no puede ingresar
+  if (Seccion?.user.id_rol != 1) { // si no es admin no puede ingresar
     return <NeedAdminComponent />
   }
 
   const getResportesData = async () => {
     setIsLoading(true)
-    const reportes = await peticionGraphql(getReportesPorRangoFechaQuery({ amount: 1, unit: rangoFechaSelect }) , session.user.authorization)
+    const reportes = await peticionGraphql(getReportesPorRangoFechaQuery({ amount: 1, unit: rangoFechaSelect }), Seccion.user.authorization)
     setReportesData(reportes?.data?.getReportesPorRangoFecha)
     setIsLoading(false)
   }
@@ -156,7 +154,7 @@ function ReportesPage() {
           </select>
 
           <button
-            type="submit" 
+            type="submit"
             className='w-full bg-green-500 text-white rounded-lg py-2 px-5 mx-5'
             onClick={descargarExcel}
           >

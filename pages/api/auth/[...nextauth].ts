@@ -62,7 +62,6 @@ export default NextAuth({
 
         params.user.id = userDb.id
         params.user.name = userDb.name
-        params.user.id_rol = userDb.id_rol
       }
 
       const token = Math.random().toString(36).substring(7)
@@ -95,6 +94,7 @@ export default NextAuth({
         })
       }
 
+      params.user.id_rol = userDb.id_rol
       params.user.authorization = tokenjwt
       return true; // Devuelve true para permitir que el proceso de inicio de sesión continúe
     },
