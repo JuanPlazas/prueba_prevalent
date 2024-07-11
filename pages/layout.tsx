@@ -1,14 +1,12 @@
 import Sidebar from "@/components/ui/Sidebar";
 import { Toaster } from "@/components/ui/toaster";
 import { useSession } from "next-auth/react";
+import Login from "@/pages/login";
 
 export default function Layout({ Component, pageProps }) {
   const { data: session } = useSession();
 
-  // Asegúrate de que session esté definido antes de usarlo
-  if (!session) {
-    return <div>Cargando...</div>;
-  }
+  console.log("session", session)
 
   return (
     <div className="flex flex-row items-center">
@@ -17,7 +15,12 @@ export default function Layout({ Component, pageProps }) {
         <h1 className="text-4xl font-bold">
           Sistema de gestion de Ingresos y Gastos
         </h1>
-        <Component {...pageProps} Seccion={session} />
+        {
+          session ?
+          <Component {...pageProps} Seccion={session} />
+          :
+          <Login Seccion={null} />
+        }
         <Toaster />
       </div>
     </div>
