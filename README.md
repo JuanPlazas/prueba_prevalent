@@ -56,7 +56,7 @@ Después se debe ejecutar el comando "npm i" , para instalar los módulos.
 
 Una vez tengamos el archivo .env listo y los módulos instalados, se debe iniciar la migración de la base de datos, para esto usamos el cli del orm Prisma, entonces debemos ejecutar el siguiente comando: 
 
-#### npx migrate dev --name init
+#### npx prisma migrate dev --name init
 
 con esto ya tendremos creadas nuestras tablas en supabase.
 
