@@ -35,7 +35,7 @@ para los datos de supabase cuando ya creas el proyecto vas a conect, como muestr
 
 para los datos de auth0 vas a settings en tu aplicacion y los datos se relacionan de la siguente manera
 
-AUTH0_ISSUER_BASE_URL: https://<Domain>,
+AUTH0_ISSUER_BASE_URL: https:// + Domain,
 
 AUTH0_CLIENT_ID: Client ID
 
