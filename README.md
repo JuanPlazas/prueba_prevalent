@@ -9,25 +9,25 @@ para ejecutar el proyecto en local, lo primero que se debe hacer es configurar l
 
 ### .env
 
-DATABASE_URL: url database en supabase
+DATABASE_URL = url database en supabase
 
-DIRECT_URL: direct url database en supabase
+DIRECT_URL = direct url database en supabase
 
-NEXTAUTH_URL: "http://localhost:3000"
+NEXTAUTH_URL = "http://localhost:3000"
 
-NEXTAUTH_SECRET: palabra clave para NEXTAUTH, es cualquier palabra.
+NEXTAUTH_SECRET = palabra clave para NEXTAUTH, es cualquier palabra.
 
-AUTH0_SECRET: palabra clave para JWT, es cualquier palabra
+AUTH0_SECRET = palabra clave para AUTH0, es cualquier palabra
 
-AUTH0_BASE_URL: "http://localhost:3000"
+AUTH0_BASE_URL = "http://localhost:3000"
 
-AUTH0_ISSUER_BASE_URL: variable que sacas de la configuración de tu aplicación de auth0
+AUTH0_ISSUER_BASE_URL = variable que sacas de la configuración de tu aplicación de auth0
 
-AUTH0_CLIENT_ID: variable que sacas de la configuración de tu aplicación de auth0
+AUTH0_CLIENT_ID = variable que sacas de la configuración de tu aplicación de auth0
 
-AUTH0_CLIENT_SECRET: variable que sacas de la configuración de tu aplicación de auth0
+AUTH0_CLIENT_SECRET = variable que sacas de la configuración de tu aplicación de auth0
 
-SECRET_KEY: palabra clave para JWT, es cualquier palabra.
+SECRET_KEY = palabra clave para JWT, es cualquier palabra.
 
 para los datos de supabase cuando ya creas el proyecto vas a conect, como muestra la imagen, y luego al apartado de ORMs, seleccionar el orm prisma y ya te muestran las variables.
 
@@ -84,10 +84,9 @@ Se crean 2 tablas de parametrización, por lo que una vez estén listas, las deb
   rol: "user"
 }
 
-Estamos manejando autenticación por roles, entonces si entras por auth0 se creará un registro en tabla user, pero quedará como si fuera un rol "user" y no "admin". Entonces, para tener acceso a todos los privilegios de Admin se debe cambiar el rol del usuario en la base de datos si se entra por auth0 o crear un registro en la tabla user.
-
 Ahora ejecutamos "npm run dev" para ejecutar el proyecto en ambiente de desarrollo y ya está en ejecución el proyecto en http://localhost:3000
 
+Estamos manejando autenticación por roles, entonces si entras por auth0 se creará un registro en tabla user, pero quedará como si fuera un rol "user" y no "admin". Entonces, para tener acceso a todos los privilegios de Admin se debe cambiar el rol del usuario en la base de datos si se entra por auth0 o crear un registro en la tabla user.
 
 ## Despliegue en vercel
 
