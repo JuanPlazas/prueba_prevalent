@@ -41,6 +41,15 @@ AUTH0_CLIENT_ID: Client ID
 
 AUTH0_CLIENT_SECRET: Client Secret
 
+En Auth0 en la settings de tu aplicacion debes poner http://localhost:3000 en los siguientes campos 
+
+- Allowed Logout URLs
+- Allowed Web Origins
+
+y poner http://localhost:3000/api/auth/callback/auth0 en el campo 
+
+- Allowed Callback URLs
+
 ####
 
 Después se debe ejecutar el comando "npm i" , para instalar los módulos.
